@@ -16,6 +16,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -32,6 +34,13 @@
     </Compile>
     <Compile Include="StorageScan.cs" />
     <Compile Include="SnapshotHistory.cs" />
+    <Compile Include="Cleaner.cs" />
+    <Compile Include="CheckedFile.cs" />
+    <Compile Include="Recovery.cs" />
+    <Compile Include="WindowsTools.cs" />
+    <Compile Include="CleanerWindow.cs" />
+    <Compile Include="CleanupExperience.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

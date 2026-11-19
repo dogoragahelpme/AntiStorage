@@ -155,8 +155,8 @@ namespace AntiStorage
         {
             var result = new SnapshotComparison { Changes = new List<FileChange>() };
             var olderFiles = previous.Files.ToDictionary(file => file.RelativePath, StringComparer.Ordinal);
-            var olderUnknown = new HashSet<string>(previous.UnobservedPaths, StringComparer.Ordinal);
-            var newerUnknown = new HashSet<string>(latest.UnobservedPaths, StringComparer.Ordinal);
+            var olderUnknown = new HashSet<string>(previous.UnobservedPaths, StringComparer.OrdinalIgnoreCase);
+            var newerUnknown = new HashSet<string>(latest.UnobservedPaths, StringComparer.OrdinalIgnoreCase);
 
             foreach (var file in latest.Files)
             {
