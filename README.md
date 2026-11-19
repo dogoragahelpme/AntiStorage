@@ -1,5 +1,7 @@
 # AntiStorage
 
+**[Download AntiStorage.exe for Windows](https://github.com/dogoragahelpme/AntiStorage/releases/download/v0.1.0/AntiStorage.exe)**
+
 AntiStorage is a Windows desktop prototype for finding which files changed a folder's size. It saves the two most recent scans of each folder and exclusion set so you can compare them after restarting the app.
 
 ## Try the prototype
