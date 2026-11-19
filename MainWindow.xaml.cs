@@ -35,6 +35,7 @@ namespace AntiStorage
             store = new SnapshotStore(stateDirectory);
             tempFolder = ScanPaths.NormalizeDirectory(tempDirectory);
             InitializeComponent();
+            InitializeCleaner(stateDirectory);
 
             TempPath.Text = tempFolder;
             TemporarySummary.Text = "Files for review";
@@ -54,10 +55,12 @@ namespace AntiStorage
                     await LoadScopeAsync(saved);
                 Status.Text = string.Empty;
             });
+            CheckScheduledReview();
         }
 
         private void ShowStorage(object sender, RoutedEventArgs args)
         {
+            CleanerPage.Visibility = Visibility.Collapsed;
             StoragePage.Visibility = Visibility.Visible;
             TemporaryPage.Visibility = Visibility.Collapsed;
             if (operation == null)
@@ -66,6 +69,7 @@ namespace AntiStorage
 
         private void ShowTemporary(object sender, RoutedEventArgs args)
         {
+            CleanerPage.Visibility = Visibility.Collapsed;
             StoragePage.Visibility = Visibility.Collapsed;
             TemporaryPage.Visibility = Visibility.Visible;
             if (operation == null)
@@ -234,6 +238,9 @@ namespace AntiStorage
             using (var source = new CancellationTokenSource())
             {
                 operation = source;
+                CleanerPage.IsEnabled = false;
+                CleanerNavigation.IsEnabled = false;
+                SettingsNavigation.IsEnabled = false;
                 Status.Text = label;
                 WorkIndicator.Visibility = Visibility.Visible;
                 CancelButton.Visibility = cancellable ? Visibility.Visible : Visibility.Collapsed;
@@ -254,6 +261,9 @@ namespace AntiStorage
                 finally
                 {
                     operation = null;
+                    CleanerPage.IsEnabled = true;
+                    CleanerNavigation.IsEnabled = true;
+                    SettingsNavigation.IsEnabled = true;
                     WorkIndicator.Visibility = Visibility.Collapsed;
                     CancelButton.Visibility = Visibility.Collapsed;
                     UpdateControls();

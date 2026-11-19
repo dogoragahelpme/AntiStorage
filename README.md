@@ -1,31 +1,47 @@
 # AntiStorage
 
-**[Download AntiStorage.exe for Windows](https://github.com/dogoragahelpme/AntiStorage/releases/download/v0.1.0/AntiStorage.exe)**
+AntiStorage is a Windows maintenance app. It cleans disposable local files after you review them, finds duplicate files, and shows where your storage grew between scans.
 
-AntiStorage is a Windows desktop prototype for finding which files changed a folder's size. It saves the two most recent scans of each folder and exclusion set so you can compare them after restarting the app.
+## Start here
 
-## Try the prototype
+1. Open **AntiStorage.exe** and select **Scan for junk** from **Clean up**.
+2. Review the categories and uncheck anything you want to keep. Select **View files** to choose individual files. **Choose what to scan** lets you change the categories for a custom scan.
+3. Choose **Clean selected**. The confirmation tells you which files will be deleted and which go to Recovery.
+4. For large files and duplicates, inspect the paths first. **Recovery** restores files to existing original folders or permanently deletes them to free up space.
 
-1. Open `AntiStorage.exe`.
-2. Choose a folder and select **Scan folder**. The first scan shows its largest files and establishes a baseline.
-3. Add or resize a test file and scan the same folder again. **Changes** shows each changed path, its previous and current size, and the difference. Select an existing file and choose **Show in Explorer** to inspect it.
-4. Open **Temporary files** to review files under `%LOCALAPPDATA%\Temp` that were created and last modified at least seven days ago. This screen scans and previews files. Cleanup is done in Windows Explorer.
+The app skips linked, offline, changed and inaccessible files. Cleanup totals are logical file sizes. They can differ from changes in free disk space because of compression, sparse files and files in use. Recovery keeps moved files on the Windows profile drive, so moving a file there does not itself free disk space.
 
-Scans use the current user's permissions and can be canceled. Folder exclusions apply to the selected scope. Links, offline files, and unreadable locations are skipped, and differences involving unseen paths are marked as unverified. The numbers reflect logical file sizes by path. Compression, sparse files, and hard links can affect how much space those paths occupy on disk.
+## Windows feature coverage
 
-Snapshot history stays in `%LOCALAPPDATA%\AntiStorage`. It contains folder paths, file sizes, and timestamps. The app does not read file contents or connect to a server.
+| Feature | What AntiStorage does |
+| --- | --- |
+| Clean up | Scans recommended junk and caches. Review by category or open individual file lists before cleaning. |
+| Custom clean | Select rules for temporary files, app and AI caches, shader and thumbnail caches, recent shortcuts, Jump Lists, crash reports, Store temp folders, and older downloads. Includes Recycle Bin management and local Ollama model review. |
+| Browser privacy | Cleans Chrome, Edge, Brave and Firefox caches. Browser controls manage history, cookies, session exceptions, saved data and extensions. |
+| Registry review | Finds missing executables in simple current user App Paths entries. Backs up selected values and can restore them. |
+| Uninstaller | Lists desktop apps. Launches Windows Installer for supported MSI packages and opens Windows Installed Apps for other uninstallers. |
+| Duplicate finder | Groups files by size and SHA-256. Keeps a verified copy, supports selecting extras, and moves selected copies to Recovery on the profile drive. |
+| Disk analyzer | Scans fixed drives and folders, with minimum size and age filters, a sorted file list and CSV export. |
+| Storage activity | Saves the two most recent snapshots for each selected folder and exclusion set. Compare changes and reveal files in Explorer. |
+| Cloud storage | Reviews eligible local files in synced folders. Links to OneDrive, Google Drive, Dropbox and Gmail. Online inventory and deletion are handled on those services. |
+| Performance | Shows process memory usage in the Windows session. Requests that a selected visible app close and links to startup controls. |
+| Startup manager | Lists Run entries, startup shortcuts, services, tasks and context menu entries. Backs up and restores supported per user Run entries. Windows tools manage the other entries. |
+| Software updates | Checks the WinGet catalog. Supports installing a selected version, skipping a version and ignoring a package. Requires Microsoft App Installer. |
+| Driver updates | Lists installed drivers and checks Windows Update for driver offers. Installs and rolls back through Windows Update and Device Manager. |
+| System tools | Hardware and drive inventory, CSV export, and shortcuts to Storage Sense, Optimize Drives, System Restore and Disk Cleanup. |
+| Settings and help | Folder exclusions, scan on open, recurring scans while Clean up is open, local activity history, documentation and release links. |
+
+This release covers a subset of CCleaner's feature set. Connected cloud scans and cleanup, temporary app removal and leftover cleanup, whole-app sleep, fully integrated driver install and rollback, advanced registry categories, background cleaning, secure wiping, and file undelete beyond AntiStorage Recovery are outside this build. The separate mobile, business, VPN, and browser products are outside the Windows desktop scope.
+
+Snapshots, backups, settings and Recovery files stay under %LOCALAPPDATA%\AntiStorage. WinGet, Windows Update and browser or cloud tools use their own connections. Scans use the current Windows account's access.
 
 ## Build from source
 
-Use Windows with the [.NET Framework 4.8.1 Developer Pack](https://learn.microsoft.com/dotnet/framework/install/guide-for-developers) and MSBuild. The project uses WPF and has no third-party packages.
+Use Windows with the [.NET Framework 4.8.1 Developer Pack](https://learn.microsoft.com/dotnet/framework/install/guide-for-developers) and MSBuild. AntiStorage uses WPF and has no third-party packages.
 
-```powershell
-msbuild .\AntiStorage.csproj /p:Configuration=Release
-.\bin\Release\AntiStorage.exe
-```
+    msbuild .\AntiStorage.csproj /p:Configuration=Release
+    .\bin\Release\AntiStorage.exe
 
-On Windows x64, you can also run the built-in MSBuild by its full path when MSBuild is unavailable on `PATH`.
+The framework MSBuild also works when a separate MSBuild installation is unavailable.
 
-```powershell
-& "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" .\AntiStorage.csproj /p:Configuration=Release
-```
+    & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" .\AntiStorage.csproj /p:Configuration=Release
